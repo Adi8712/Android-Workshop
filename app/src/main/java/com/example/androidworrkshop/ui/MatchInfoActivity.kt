@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidworrkshop.R
+import com.example.androidworrkshop.databinding.ActivityMatchInfoBinding
 import com.example.androidworrkshop.di.Resource
 import com.example.androidworrkshop.model.leanback
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,11 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MatchInfoActivity : AppCompatActivity() {
 
+    lateinit var binding : ActivityMatchInfoBinding
     lateinit var viewModel : MainViewModel
-    lateinit var  scoreCard:leanback
+    lateinit var scoreCard:leanback
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_match_info)
+        binding= ActivityMatchInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val receivedIntent = intent
         var matchId = receivedIntent.getStringExtra("matchId")
@@ -43,20 +46,29 @@ class MatchInfoActivity : AppCompatActivity() {
 //                    binding.progressBar.visibility = View.VISIBLE
                 }
                 Resource.Status.EMPTY -> {
-                    Log.e("setObservers", "Empty")
+                    Log.d("setObservers", "Empty")
 //                    binding.progressBar.visibility = View.GONE
 //                    binding.emptyDialog.visibility = View.VISIBLE
                 }
                 Resource.Status.SUCCESS -> {
-                    Log.e("setObservers", "Success")
+                    Log.d("setObservers", "Success")
 //                    binding.progressBar.visibility = View.GONE
 //                    binding.emptyDialog.visibility = View.GONE
 //                    ImageList = it.data
-                    Log.e("Result",it.data.toString())
+                    Log.d("Result", it.data.toString())
                     scoreCard= it.data!!
+                    binding.tossDecision.text = scoreCard.matchHeader.status
+                    binding.playom.text=scoreCard.matchHeader.playersOfTheMatch[0].fullName
+                    binding.team1.text=scoreCard.matchHeader.matchTeamInfo[0].battingTeamShortName
+                    binding.team2.text=scoreCard.matchHeader.matchTeamInfo[0].bowlingTeamShortName
+                    binding.team1score.text=scoreCard.miniscore.matchScoreDetails.inningsScoreList[1].score.toString() + "/" + scoreCard.miniscore.matchScoreDetails.inningsScoreList[1].wickets.toString()
+                    binding.team2score.text=scoreCard.miniscore.matchScoreDetails.inningsScoreList[0].score.toString() + "/" + scoreCard.miniscore.matchScoreDetails.inningsScoreList[0].wickets.toString()
+                    binding.team1over.text="(" + scoreCard.miniscore.matchScoreDetails.inningsScoreList[1].overs.toString() + ")"
+                    binding.team2over.text="(" + scoreCard.miniscore.matchScoreDetails.inningsScoreList[0].overs.toString() + ")"
+                    binding.decision.text=scoreCard.miniscore.matchScoreDetails.customStatus
                 }
                 Resource.Status.ERROR -> {
-                    Log.e("setObservers", it.error.toString())
+                    Log.d("setObservers", it.error.toString())
 //                    binding.progressBar.visibility = View.GONE
 //                    binding.emptyDialog.visibility = View.VISIBLE
                     Toast.makeText(this, it.error.toString(), Toast.LENGTH_SHORT).show()

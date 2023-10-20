@@ -28,7 +28,8 @@ class MatchListActivity : AppCompatActivity() {
     private var MatchInfo : MatchInfo ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_match_list)
+        binding= ActivityMatchListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
@@ -41,25 +42,25 @@ class MatchListActivity : AppCompatActivity() {
         viewModel.performFetchMatchesStatus.observe(this, Observer {
             when(it.status){
                 Resource.Status.LOADING -> {
-                    Log.e("setObservers", "Loading")
+                    Log.d("setObservers", "Loading")
 //                    binding.progressBar.visibility = View.VISIBLE
                 }
                 Resource.Status.EMPTY -> {
-                    Log.e("setObservers", "Empty")
+                    Log.d("setObservers", "Empty")
 //                    binding.progressBar.visibility = View.GONE
 //                    binding.emptyDialog.visibility = View.VISIBLE
                 }
                 Resource.Status.SUCCESS -> {
-                    Log.e("setObservers", "Success")
+                    Log.d("setObservers", "Success")
 //                    binding.progressBar.visibility = View.GONE
 //                    binding.emptyDialog.visibility = View.GONE
 //                    ImageList = it.data
-                    Log.e("Result",it.data.toString())
+//                    Log.d("Result",it.data.toString())
                     MatchInfo=it.data
                     SetUpRecyclerView()
                 }
                 Resource.Status.ERROR -> {
-                    Log.e("setObservers", it.error.toString())
+                    Log.d("setObservers", it.error.toString())
 //                    binding.progressBar.visibility = View.GONE
 //                    binding.emptyDialog.visibility = View.VISIBLE
                     Toast.makeText(this, it.error.toString(), Toast.LENGTH_SHORT).show()
@@ -72,16 +73,16 @@ class MatchListActivity : AppCompatActivity() {
 
     fun SetUpRecyclerView(){
         var matchList:MutableList<Match> = arrayListOf()
-//        Log.e("kkkk",MatchInfo.toString())
+//        Log.d("okay",MatchInfo.toString())
         val list=MatchInfo?.matchDetails
 
-        for(i in 0..MatchInfo?.matchDetails?.size!!-1){
-//            Log.e("num",i.toString())
+        for(i in 0 until list?.size!!){
+//            Log.d("num",i.toString())
             try {
-//                Log.e("Match", MatchInfo?.matchDetails!![i].matchDetailsMap.match[0].toString())
-                matchList.add(MatchInfo?.matchDetails!![i].matchDetailsMap.match[0])
+//                Log.d("Match", MatchInfo?.matchDetails!![i].matchDetailsMap.match[0].toString())
+                matchList.add(list[i].matchDetailsMap.match[0])
             }catch (e:Exception){
-                Log.e("error",e.toString())
+                Log.d("error",e.toString())
             }
 
         }
@@ -90,53 +91,50 @@ class MatchListActivity : AppCompatActivity() {
         var matchListLive:MutableList<Match> = arrayListOf()
         var matchListPast:MutableList<Match> = arrayListOf()
 
+        var up=0
+        var live=0
+
         for(i in matchList){
             try {
-                if(i.matchInfo.state=="Complete")matchListPast.add(i)
-                else if(i.matchInfo.state=="Upcoming")matchListUpcoming.add(i)
-                else matchListLive.add(i)
+                when (i.matchInfo.state) {
+                    "Complete" -> {
+                        matchListPast.add(i)
+                    }
+                    "Upcoming" -> {
+                        matchListUpcoming.add(i)
+                        up++
+                    }
+                    else -> {
+                        matchListLive.add(i)
+                        live++
+                    }
+                }
             }catch (e:Exception){
-                Log.e("error_ll",e.toString())
+                Log.d("error_ll",e.toString())
             }
-
-
         }
-//        Log.e("Match Upcoming",matchListUpcoming.toString())
-        val adapterUp=MatchAdapter(this,matchListUpcoming)
+        matchList=matchListUpcoming
+        for(i in  matchListLive){
+            matchList.add(i)
+        }
+        for(i in  matchListPast){
+            matchList.add(i)
+        }
+        val rv =binding.rv
+
+//        Log.d("Match Upcoming",matchListUpcoming.toString())
+        val adapter=MatchAdapter(this,matchList,up,live)
 
         try {
-            val rvUp =findViewById<RecyclerView>(R.id.rv_upMatches)
-            rvUp.layoutManager=LinearLayoutManager(this)
-            rvUp.adapter=adapterUp
+            rv.layoutManager=LinearLayoutManager(this)
+            rv.adapter=adapter
         }catch (e:Exception){
-            Log.e("error",e.toString())
+            Log.d("error",e.toString())
         }
 
 
 
-        val adapterLive=MatchAdapter(this,matchListLive)
-
-        try {
-            val rvLive =findViewById<RecyclerView>(R.id.rv_liveMatches)
-            rvLive.layoutManager=LinearLayoutManager(this)
-            rvLive.adapter=adapterLive
-        }catch (e:Exception){
-            Log.e("error",e.toString())
-        }
-
-
-        val adapterPast=MatchAdapter(this,matchListPast)
-
-        try {
-            val rvLive =findViewById<RecyclerView>(R.id.rv_pastMatches)
-            rvLive.layoutManager=LinearLayoutManager(this)
-            rvLive.adapter=adapterPast
-        }catch (e:Exception){
-            Log.e("error",e.toString())
-        }
-
-
-        Log.e("Done","Done")
+        Log.d("Done","Done")
     }
 
 }

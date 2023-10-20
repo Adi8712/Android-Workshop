@@ -18,14 +18,15 @@ import com.example.androidworrkshop.model.Match
 import com.example.androidworrkshop.model.MatchDetail
 import com.example.androidworrkshop.model.MatchDetailsMap
 
-class MatchAdapter(private val context: Context, private val MatchDetails : MutableList<Match>) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
+class MatchAdapter(private val context: Context, private val MatchDetails : MutableList<Match>, private val up : Int, private val live : Int) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
 
 
     class ViewHolder(binding: ItemMatchBinding) : RecyclerView.ViewHolder(binding.root){
-        val Team1 = binding.cvTeam1
-        val Team2 = binding.cvTeam2
+        val team1 = binding.cvTeam1
+        val team2 = binding.cvTeam2
         val time = binding.cvTime
         val location = binding.location
+        val heading = binding.heading
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,18 +43,34 @@ class MatchAdapter(private val context: Context, private val MatchDetails : Muta
 
     override fun onBindViewHolder(holder: MatchAdapter.ViewHolder, position: Int) {
        val model = MatchDetails[position]
-        holder.Team1.text = model.matchInfo.team1?.teamSName
-        holder.Team2.text = model.matchInfo.team2?.teamSName
+        holder.team1.text = model.matchInfo.team1?.teamSName
+        holder.team2.text = model.matchInfo.team2?.teamSName
         holder.time.text = model.matchInfo.status
         holder.location.text = model.matchInfo.venueInfo?.city
 
+        when (position) {
+            0 -> {
+                holder.heading.visibility = View.VISIBLE
+                holder.heading.text = "Upcoming Matches"
+                Log.d("Matches","Upcoming")
+            }
+            up -> {
+                holder.heading.visibility = View.VISIBLE
+                holder.heading.text = "Live Matches"
+                Log.d("Matches","Live")
+            }
+            up+live -> {
+                holder.heading.visibility = View.VISIBLE
+                holder.heading.text = "Past Matches"
+                Log.d("Matches","Past")
+            }
+        }
+
         holder.itemView.setOnClickListener{
-           if(model.matchInfo.state=="Complete"){
-               val intent=Intent(context,MatchInfoActivity::class.java)
-               intent.putExtra("matchId",model.matchInfo.matchId)
+           if(model.matchInfo.state=="Complete") {
+               val intent = Intent(context, MatchInfoActivity::class.java)
+               intent.putExtra("matchId", model.matchInfo.matchId.toString())
                context.startActivity(intent)
-           }else{
-               Toast.makeText(context, "No Scorecard available", Toast.LENGTH_SHORT).show()
            }
        }
 

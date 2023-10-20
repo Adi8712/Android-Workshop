@@ -1,9 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".ui.MatchInfoActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:background="#320073"
+        app:title="ICC WORLD CUP"
+        app:titleTextColor="@color/white"
+        app:titleTextAppearance="@style/title"
+        android:backgroundTintMode="add"
+
+        app:titleCentered="true"
+        />
+
+    <View
+        android:layout_width = "match_parent"
+        android:layout_height = "3dp"
+        android:layout_gravity="top"
+        android:background="#F953C6"
+        />
+
+    <TextView
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:text="Scorecard"
+        android:textSize="30sp"
+        android:layout_margin="20dp"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="20dp"
+        android:layout_margin="20dp"
+        style="@style/CardView.AndroidWorkshop"
+        >
+        <LinearLayout
+            android:layout_width = "match_parent"
+            android:layout_height = "match_parent"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <LinearLayout
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:padding="10dp"
+                >
+
+                <TextView
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:text="TOSS : "
+                    android:textColor="#B91D73"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    />
+
+                <TextView
+                    android:id="@+id/toss_decision"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:text=""
+                    android:textSize="14sp"
+                    />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:text="Player of the match"
+                android:textColor="#B91D73"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/playom"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:text=""
+                android:textSize="16sp"
+                />
+
+            <LinearLayout
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:gravity="center"
+                android:layout_margin="30dp"
+                >
+
+                <LinearLayout
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/team1"
+                        android:layout_width = "wrap_content"
+                        android:layout_height = "wrap_content"
+                        android:text=""
+                        style="@style/title"
+                        android:textSize="30sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/team1score"
+                        android:layout_width = "wrap_content"
+                        android:layout_height = "wrap_content"
+                        android:text=""
+                        android:textSize="16sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/team1over"
+                        android:layout_width = "wrap_content"
+                        android:layout_height = "wrap_content"
+                        android:text=""
+                        android:textSize="16sp"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:text="vs"
+                    android:layout_margin="40dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/team2"
+                        android:layout_width = "wrap_content"
+                        android:layout_height = "wrap_content"
+                        android:text=""
+                        style="@style/title"
+                        android:textSize="30sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/team2score"
+                        android:layout_width = "wrap_content"
+                        android:layout_height = "wrap_content"
+                        android:text=""
+                        android:textSize="16sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/team2over"
+                        android:layout_width = "wrap_content"
+                        android:layout_height = "wrap_content"
+                        android:text=""
+                        android:textSize="16sp"
+                        />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+               <TextView
+                    android:id="@+id/decision"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:text=""
+                    android:textSize="14sp"
+                    />
+
+            <TextView
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:text="ODI"
+                android:textSize="14sp"
+                android:layout_margin="20dp"
+                />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_margin = "80dp"
+        android:src = "@drawable/logo"
+        />
+
+</LinearLayout>
