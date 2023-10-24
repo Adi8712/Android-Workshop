@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Android Worrkshop"
+rootProject.name = "Android Workshop"
 include(":app")
  

@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.MatchListActivity"
+<LinearLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent"
+    android:orientation = "vertical"
+    tools:context = ".ui.MatchListActivity"
     >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
-        android:background="#320073"
-        app:title="ICC WORLD CUP"
-        app:titleTextColor="@color/white"
-        app:titleTextAppearance="@style/title"
-        app:titleCentered="true"
+        android:background = "#320073"
+        app:title = "ICC WORLD CUP"
+        app:titleCentered = "true"
+        app:titleTextAppearance = "@style/title"
+        app:titleTextColor = "@color/white"
         />
 
     <View
         android:layout_width = "match_parent"
         android:layout_height = "3dp"
-        android:layout_gravity="top"
-        android:background="#F953C6"
+        android:layout_gravity = "top"
+        android:background = "#F953C6"
         />
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id = "@+id/rv"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
-        android:paddingBottom="2dp"
-        android:id="@+id/rv"
-        tools:listitem="@layout/item_match"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="15dp"
+        android:layout_gravity = "center"
+        android:paddingHorizontal = "15dp"
+        android:paddingBottom = "2dp"
+        tools:listitem = "@layout/item_match"
         />
-
-
 
 
 </LinearLayout>
